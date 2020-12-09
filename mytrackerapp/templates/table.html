@@ -1,0 +1,43 @@
+{% load render_table from django_tables2 %}
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <title>Tracker App</title>
+        <link rel="stylesheet" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />
+    </head>
+    <body style="background-color:#4DB6AC;">
+        <center>
+        <a href="{% url 'admin:login' %}" class = 'navbar-link btn-lg' style="background-color:#FFFF99;color:#000000;">Admin</a>
+        <a href="{% url 'upload' %}" class="navbar-link btn-lg" style="background-color:#FFFF99;color:#000000;">Add record</a>
+        </center>
+        </nav>
+        <br>
+        {% block data %}
+        <center>
+        <div class="section">
+            <div id="form_card" class="card-panel col s12">
+                <form method="post" action="{% url 'delete' %}">
+                    {% csrf_token %}
+                    {% render_table table %}
+
+                    {% block scripts %}
+                    <script>
+                        var checkboxes = $("input[type='checkbox']"),
+                            submitButton = $("button[type='submit']");
+
+                        checkboxes.click(function() {
+                                let url = `delete/`;
+                        },
+                    </script>
+                    {% endblock %}
+                    <center>
+                    <button class="btn btn-primary red" type="submit" >Delete</button>
+                    </center>
+                </form>
+            </div>
+        </div>
+        </center>
+        {% endblock %}
+    </body>
+</html>
