@@ -4,11 +4,17 @@ from django_tables2 import RequestConfig
 from .models import RecordModel
 from .forms import RecordForm
 from .tables import RecordTable
+from django.db import connection
+
+def index(request):
+    return render(request, 'index.html')
+  
 
 def table(request):
     table = RecordTable(RecordModel.objects.all())
     RequestConfig(request).configure(table)
-    return render(request, 'table.html', {'table':table})
+    context = {'table':table if request.user.is_authenticated else table}
+    return render(request, 'table.html', context)
 
 def upload(request):
     upload = RecordForm()
@@ -21,19 +27,7 @@ def upload(request):
             return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'table'}}">reload</a>""")
     else:
         return render(request, 'upload_form.html', {'upload_form': upload})
-'''
-def update_record(request, record_id):
-    record_id = int(record_id)
-    try:
-        record_sel = RecordModel.objects.get(id = record_id)
-    except RecordModel.DoesNotExist:
-        return redirect('table')
-    record_form = RecordForm(request.POST or None, instance = record_sel)
-    if record_form.is_valid():
-       record_form.save()
-       return redirect('table')
-    return render(request, 'upload_form.html', {'upload_form':record_form})
-'''
+
 def delete_record(request):
     if request.method == "POST":
         pks = request.POST.getlist('check')
