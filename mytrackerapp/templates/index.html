@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tracker App</title>
+    </head>
+    <body>
+        <div class="jumbotron">
+            <h1>Please log in to use this app</h1>
+            {% if user.is_authenticated %}
+              <p>Logged as {{ user.username }}</p>
+              <a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
+            {% else %}
+              <a class="btn btn-primary" href="{% url 'social:begin' 'google-oauth2' %}">
+                Login
+              </a>
+            {% endif %}
+          </div>
+
+    </body>
+</html>
