@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django_tables2 import RequestConfig
 from .models import RecordModel
 from .forms import RecordForm
@@ -11,12 +11,15 @@ def index(request):
   
 
 def table(request):
+    if not request.user.is_authenticated:
+            return HttpResponseForbidden()
     table = RecordTable(RecordModel.objects.all())
     RequestConfig(request).configure(table)
-    context = {'table':table if request.user.is_authenticated else table}
-    return render(request, 'table.html', context)
+    return render(request, 'table.html', {'table':table})
 
 def upload(request):
+    if not request.user.is_authenticated:
+            return HttpResponseForbidden()
     upload = RecordForm()
     if request.method == 'POST':
         upload = RecordForm(request.POST, request.FILES)
@@ -29,6 +32,8 @@ def upload(request):
         return render(request, 'upload_form.html', {'upload_form': upload})
 
 def delete_record(request):
+    if not request.user.is_authenticated:
+            return HttpResponseForbidden()
     if request.method == "POST":
         pks = request.POST.getlist('check')
     for i in pks:
