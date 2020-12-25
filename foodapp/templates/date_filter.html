@@ -1,0 +1,67 @@
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <title>Tracker App</title>
+    </head>
+    <body>
+        <style>
+            body {
+              background-image: url('{% static '/images/fon.jpg' %}');
+              background-position: center;
+              background-attachment: fixed; 
+              background-size: cover;
+            }
+            .section1, h1, p{
+                background: rgba(255, 250, 205, 0.7);
+                color:#4B0082;
+                padding: 5px;
+            }
+            
+            .table-light{
+            border-radius:10px;
+            background-color: rgba(255, 250, 205, 0.9);
+            color:#4B0082;
+        }
+        </style>
+        <div class="section1">
+            <center>
+            <a href="{% url 'admin:login' %}" class = "display-3" > Admin</a>
+            <a href="{% url 'index' %}" class="display-3">Home</a>
+            <a href="{% url 'logout' %}" class="display-3">Logout</a>
+            </center>
+            <p style="color:#4B0082;"> Logged as {{ user.username }}</p>
+        </div>
+        
+        {% block data %}
+        <div class="section2">
+            <form method="GET" action="{% url 'date_filter' %}">
+                <label for='start_date'>Start filter date</label>
+                <input id='start_date' type='date' value="2020-12-24" name='start_date'>
+                <br/>
+                <label for='"end_date'>End filter date</label>
+                <input id='end_date' type='date' value="2020-12-24" name='end_date'>
+                <br/>
+                <input type="submit">
+            </form>
+        </div>
+        <center>
+        <div class="section3">
+            <form method="GET" action="{% url 'date_filter' %}" enctype="multipart/form-data">
+                <table class = 'table-light' >
+                    <p>Total cost {{period_sum.total}}</p>
+                    {% csrf_token %}
+                    {% for field in filtered_date %}
+                    <tr>
+                        <th>{{ field.purchase.purchase_date}}</th>
+                        <th>{{ field.product.product_name}}</th>
+                        <th>{{ field.product_cost}}</th>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </form>
+        </div>
+        </center>
+        {% endblock %}
+    </body>
+</html>

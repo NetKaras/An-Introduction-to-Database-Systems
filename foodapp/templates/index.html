@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tracker App</title>
+    </head>
+    <body>
+        <style>
+            body {
+              background-image: url('{% static '/images/fon.jpg' %}');
+              background-position: center;
+              background-attachment: fixed; 
+              background-size: cover;
+            }
+            div {
+                background: rgba(255, 250, 205, 0.7);
+                color:#4B0082;
+                padding: 5px;
+            }
+            .btn {
+                color:#4B0082;
+            }
+        </style>
+        <div>
+            <h1>Wellcome to the Tracker App</h1>
+            {% if user.is_authenticated %}
+              <p>Logged as {{ user.username }}</p>
+              <br/><a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
+              <br/><a class="btn btn-primary" href="{% url 'show' %}">Show all</a>
+              <br/><a class="btn btn-primary" href="{% url 'product' %}">Add Product</a>
+              <br/><a class="btn btn-primary" href="{% url 'delete_prod' %}">Delete Product</a>
+              <br/><a class="btn btn-primary" href="{% url 'category' %}">Add Category</a>
+              <br/><a class="btn btn-primary" href="{% url 'delete_cat' %}">Delete Category</a>
+              <br/><a class="btn btn-primary" href="{% url 'purchase' %}">Make Purchase</a>
+              <br/><a class="btn btn-primary" href="{% url 'delete_purch' %}">Delete Purchase</a>
+              <br/><a class="btn btn-primary" href="{% url 'date_filter' %}">Date Filter</a>
+              <br/><a class="btn btn-primary" href="{% url 'cat_filter' %}">Category Filter</a>
+              <br/><a class="btn btn-primary" href="{% url 'prod_filter' %}">Product Filter</a>
+              <br/><a class="btn btn-primary" href="{% url 'date_cat_filter' %}">Date and Category Filter</a>
+              <br/><a class="btn btn-primary" href="{% url 'date_prod_filter' %}">Date and Product Filter</a>
+            {% else %}
+              <h1>You should log in via google to use this app</h1>
+              <a class="btn btn-primary" href="{% url 'social:begin' 'google-oauth2' %}">
+                Login
+              </a>
+            {% endif %}
+        </div>
+
+    </body>
+</html>
