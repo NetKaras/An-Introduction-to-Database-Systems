@@ -18,6 +18,12 @@
 
                 padding: 5px;
             }
+            table, th, td {
+              border: 1px solid black;
+            }
+            th, td {
+              padding: 10px;
+            }
         </style>
         <div class="section1">
             <center>
@@ -26,26 +32,24 @@
             <a href="{% url 'logout' %}" class="display-3">Logout</a>
             </center>
             <p style="color:#4B0082;"> Logged as {{ user.username }}</p>
-        </div>
         
         {% block content %}
         <center>
-        <h1 class="display-3">Add category</h1>
-        <table class = 'table-light' >
-            <p style="color:#4B0082;"> Existing Purchases</p>
-            {% for field in existing_purch %}
-            <tr>
-                <th>{{ field.purchase_id}}</th>
-                <th>{{ field.purchase_date}}</th>
-            </tr>
-            {% endfor %}
-        </table>
+        <h1>Delete Purchase</h1>
         <table class="display-3">
+            <p style="color:#4B0082;"> Existing Purchases</p>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Item</th>
+                <th>Cost</th>
+            </tr>
             {% for field in purch_det %}
             <tr>
-                <th>{{ field.purchase.purchase_date}}</th>
-                <th>{{ field.product.product_name}}</th>
-                <th>{{ field.product_cost}}</th>
+                <td>{{ field.purchase.purchase_id}}</td>
+                <td>{{ field.purchase.purchase_date}}</td>
+                <td>{{ field.product.product_name}}</td>
+                <td>{{ field.product_cost}}</td>
             </tr>
             {% endfor %}
         </table>
@@ -57,5 +61,6 @@
         </form>
         </center>
         {% endblock %}
+        </div>
     </body>
 </html>

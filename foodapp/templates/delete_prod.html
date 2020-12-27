@@ -12,11 +12,16 @@
               background-attachment: fixed; 
               background-size: cover;
             }
-            .section1, .table-light, .display-3 {
+            .section1, .section2, .table-light, .display-3 {
                 background: rgba(255, 250, 205, 0.7);
                 color:#4B0082;
-
                 padding: 5px;
+            }
+            table, th, td {
+              border: 1px solid black;
+            }
+            th, td {
+              padding: 10px;
             }
         </style>
         <div class="section1">
@@ -26,27 +31,32 @@
             <a href="{% url 'logout' %}" class="display-3">Logout</a>
             </center>
             <p style="color:#4B0082;"> Logged as {{ user.username }}</p>
-        </div>
-        
-        {% block content %}
-        <center>
-        {% csrf_token %}
-        <table class = 'table-light' >
-            <p style="color:#4B0082;"> Existing products</p>
-            {% for field in existing_products %}
-            <tr>
-                <th>{{field.label}}</th>
-                <td>{{ field}}</td>
-            </tr>
-            {% endfor %}
-        </table>
-        <form method="POST" action="{% url 'delete_prod' %}">
+            <center>
+            <p style="color:#4B0082;"> Existing products:</p>
+            {% block content %}
             {% csrf_token %}
-            <p>Enter product name you want to delete</p>
-            <input id='prod_name' type='text' name='prod_name'>
-            <button class="btn btn-primary red" type="submit" name="del_prod">Delete</button>
-        </form>
-        </center>
+            <table class = 'table-light' >
+                <tr>
+                    <th>Product</th>
+                </tr>
+                {% for field in existing_products %}
+                <tr>
+                    <td>{{ field}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            </center>
+        </div>
+        <div class="section2">
+            <center>
+            <form method="POST" action="{% url 'delete_prod' %}">
+                {% csrf_token %}
+                <p>Enter product name you want to delete</p>
+                <input id='prod_name' type='text' name='prod_name'>
+                <button class="btn btn-primary red" type="submit" name="del_prod">Delete</button>
+            </form>
+            </center>
+        </div>
         {% endblock %}
     </body>
 </html>

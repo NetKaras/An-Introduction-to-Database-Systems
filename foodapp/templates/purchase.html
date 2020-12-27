@@ -26,16 +26,15 @@
             <a href="{% url 'logout' %}" class="display-3">Logout</a>
             </center>
             <p style="color:#4B0082;"> Logged as {{ user.username }}</p>
-        </div>
         
         {% block content %}
         <center>
-        <h1 class="display-3">Make Purchase</h1>
-        <div class="section1">
+        <h1>Make Purchase</h1>
             <form method="POST" action="{% url 'purchase' %}">
                 {% csrf_token %}
                 <label for='purch_date'>Choose purchase date</label>
-                <input id='purch_date' type='date' name='purch_date'>
+                <input id='purch_date' type='date' value="2020-12-28" name='purch_date'>
+                <br/>
                 {{ purchase_detail.management_form }}
                 {% for form in purchase_detail %}
                     <br/>{{ form }}

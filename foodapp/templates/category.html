@@ -18,6 +18,12 @@
 
                 padding: 5px;
             }
+            table, th, td {
+              border: 1px solid black;
+            }
+            th, td {
+              padding: 10px;
+            }
         </style>
         <div class="section1">
             <center>
@@ -26,23 +32,26 @@
             <a href="{% url 'logout' %}" class="display-3">Logout</a>
             </center>
             <p style="color:#4B0082;"> Logged as {{ user.username }}</p>
-        </div>
-        
-        {% block content %}
-        <center>
-        <h1 class="display-3">Add category</h1>
-        <table class = 'table-light' >
-            <p style="color:#4B0082;"> Existing categories</p>
-            {% for field in existing_categories %}
-            <tr>
-                <th>{{field.label}}</th>
-                <td>{{ field }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-        <form method = 'POST' >
-            {% csrf_token %}
+            {% block content %}
+            <center>
+            <h1>Add category</h1>
             <table class = 'table-light' >
+                <p style="color:#4B0082;"> Existing categories:</p>
+                <tr>
+                    <th>Category</th>
+                </tr>
+                {% for field in existing_categories %}
+                <tr>
+                    <td>{{ field }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            </center>
+        </div>
+        <form method = 'POST' >
+            <center>
+            {% csrf_token %}
+            <br/><table class = 'table-light' >
                 {% for field in category_form %}
                 <tr>
                     <th>{{field.label}}</th>
@@ -51,8 +60,8 @@
                 {% endfor %}
             </table>
             <button type="submit" class="btn btn-lg btn-warning">Submit</button>
-        </form> 
         </center>
+        </form> 
         {% endblock %}
     </body>
 </html>

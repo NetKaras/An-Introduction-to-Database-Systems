@@ -12,17 +12,18 @@
               background-attachment: fixed; 
               background-size: cover;
             }
-            .section1, h1, p{
+            .section1, .section2, .section3, h1{
                 background: rgba(255, 250, 205, 0.7);
                 color:#4B0082;
                 padding: 5px;
             }
             
-            .table-light{
-            border-radius:10px;
-            background-color: rgba(255, 250, 205, 0.9);
-            color:#4B0082;
-        }
+            table, th, td {
+              border: 1px solid black;
+            }
+            th, td {
+              padding: 10px;
+            }
         </style>
         <div class="section1">
             <center>
@@ -37,25 +38,33 @@
         <div class="section2">
             <form method="GET" action="{% url 'date_filter' %}">
                 <label for='start_date'>Start filter date</label>
-                <input id='start_date' type='date' value="2020-12-24" name='start_date'>
+                <input id='start_date' type='date' value="2020-12-28" name='start_date'>
                 <br/>
                 <label for='"end_date'>End filter date</label>
-                <input id='end_date' type='date' value="2020-12-24" name='end_date'>
+                <input id='end_date' type='date' value="2020-12-28" name='end_date'>
                 <br/>
-                <input type="submit">
+                <button type="submit">Filter</button>
+                <br/>
+                <button type="submit" name='view_all'>View all purchases</button>
+               
             </form>
         </div>
         <center>
         <div class="section3">
             <form method="GET" action="{% url 'date_filter' %}" enctype="multipart/form-data">
+                {% csrf_token %}
                 <table class = 'table-light' >
-                    <p>Total cost {{period_sum.total}}</p>
-                    {% csrf_token %}
+                    <h3>Total cost {{period_sum.total}} for period from {{st_date}} to {{en_date}}</h3>
+                    <tr>
+                        <th>Date</th>
+                        <th>Item</th>
+                        <th>Cost</th>
+                    </tr>
                     {% for field in filtered_date %}
                     <tr>
-                        <th>{{ field.purchase.purchase_date}}</th>
-                        <th>{{ field.product.product_name}}</th>
-                        <th>{{ field.product_cost}}</th>
+                        <td>{{ field.purchase.purchase_date}}</td>
+                        <td>{{ field.product.product_name}}</td>
+                        <td>{{ field.product_cost}}</td>
                     </tr>
                     {% endfor %}
                 </table>

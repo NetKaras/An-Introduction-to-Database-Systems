@@ -17,32 +17,50 @@
                 color:#4B0082;
                 padding: 5px;
             }
-            .btn {
+            a {
                 color:#4B0082;
+            }
+            table, th, td {
+              border: 1px solid black;
+            }
+            th, td {
+              padding: 10px;
             }
         </style>
         <div>
             <h1>Wellcome to the Tracker App</h1>
             {% if user.is_authenticated %}
-              <p>Logged as {{ user.username }}</p>
-              <br/><a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
-              <br/><a class="btn btn-primary" href="{% url 'show' %}">Show all</a>
-              <br/><a class="btn btn-primary" href="{% url 'product' %}">Add Product</a>
-              <br/><a class="btn btn-primary" href="{% url 'delete_prod' %}">Delete Product</a>
+              <p>Logged as {{ user.username }} &emsp;&emsp;&emsp;<a class="btn btn-primary" href="{% url 'logout' %}">Logout</a></p>
+              <h3>Options:</h3>
+              <a class="btn btn-primary" href="{% url 'product' %}">Add Product</a>
+              &emsp;&emsp;&emsp;<a class="btn btn-primary" href="{% url 'delete_prod' %}">Delete Product</a>
               <br/><a class="btn btn-primary" href="{% url 'category' %}">Add Category</a>
-              <br/><a class="btn btn-primary" href="{% url 'delete_cat' %}">Delete Category</a>
+              &emsp;&emsp;&emsp;<a class="btn btn-primary" href="{% url 'delete_cat' %}">Delete Category</a>
               <br/><a class="btn btn-primary" href="{% url 'purchase' %}">Make Purchase</a>
-              <br/><a class="btn btn-primary" href="{% url 'delete_purch' %}">Delete Purchase</a>
-              <br/><a class="btn btn-primary" href="{% url 'date_filter' %}">Date Filter</a>
-              <br/><a class="btn btn-primary" href="{% url 'cat_filter' %}">Category Filter</a>
-              <br/><a class="btn btn-primary" href="{% url 'prod_filter' %}">Product Filter</a>
+              &emsp;&emsp;&emsp;<a class="btn btn-primary" href="{% url 'delete_purch' %}">Delete Purchase</a>
+              <br/><br/><a class="btn btn-primary" href="{% url 'date_filter' %}">Date Filter</a>
               <br/><a class="btn btn-primary" href="{% url 'date_cat_filter' %}">Date and Category Filter</a>
               <br/><a class="btn btn-primary" href="{% url 'date_prod_filter' %}">Date and Product Filter</a>
+              <br/>
+              <h3>Your last purchases:</h3>
+              <table class="display-3">
+                <tr>
+                  <th>Date</th>
+                  <th>Item</th>
+                  <th>Cost</th>
+                </tr>
+                {% for field in last_purch%}
+                <tr>
+                    <td>{{ field.purchase.purchase_date}}</td>
+                    <td>{{ field.product.product_name}}</td>
+                    <td>{{ field.product_cost}}</td>
+                </tr>
+                {% endfor %}
+            </table>
             {% else %}
-              <h1>You should log in via google to use this app</h1>
-              <a class="btn btn-primary" href="{% url 'social:begin' 'google-oauth2' %}">
-                Login
-              </a>
+              <h1>You should log in to use this app</h1>
+              <a class="btn btn-primary" href="{% url 'social:begin' 'google-oauth2' %}">Login via google</a>
+              <br/><br/><a class="btn btn-primary" href="{% url 'admin:login' %}">Login as Admin</a>
             {% endif %}
         </div>
 
