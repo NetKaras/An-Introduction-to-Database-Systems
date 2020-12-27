@@ -26,15 +26,12 @@ urlpatterns = [
     path('', include('social_django.urls', namespace='social')),
     path('logout/', LogoutView.as_view(template_name=settings.LOGOUT_REDIRECT_URL), name='logout'),
     path('product/', views.add_product, name='product'),
-    path('show/', views.show_all, name='show'),
     path('category/', views.add_category, name='category'),
     path('delete_cat/', views.delete_category, name='delete_cat'),
     path('delete_prod/', views.delete_product, name='delete_prod'),
     path('purchase/', views.make_purchase, name='purchase'),
     path('delete_purch', views.delete_purchase, name='delete_purch'),
     path('date_filter/', views.date_filter, name='date_filter'),
-    path('cat_filter/', views.category_filter, name='cat_filter'),
-    path('prod_filter/', views.product_filter, name='prod_filter'),
     path('date_cat_filter/', views.date_and_cat_filter, name='date_cat_filter'),
     path('date_prod_filter/', views.date_and_prod_filter, name='date_prod_filter')
 ]
